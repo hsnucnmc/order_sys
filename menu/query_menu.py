@@ -13,7 +13,7 @@ mydoc = mycol.find(myquery)
 init_db=""
 for x in mydoc:
     init_db += str(x)
-database=r.split("\'image\':")[0]+r.split("\'image\': b\'")[1].split("\', \'")[1]
+database=init_db.split("\'image\':")[0]+init_db.split("\'image\': b\'")[1].split("\', \'")[1]
 print(database)
 image=base64.decodebytes(init_db.split("\'image\': b\'")[1].split("\', \'")[0].replace("\\n","").encode("UTF-8"))
 image_result = open('decode.jpg', 'wb')
