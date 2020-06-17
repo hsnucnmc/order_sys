@@ -9,12 +9,22 @@ mydb = myclient["menu"]
 mycol = mydb["menu"]
 
 myquery = { "name" : "炒面" }
-mydoc = mycol.find(myquery)
+mydoc = mycol.find()
 init_db=""
+database=""
+name=[]
 for x in mydoc:
     init_db += str(x)
-database=init_db.split("\'image\':")[0]+init_db.split("\'image\': b\'")[1].split("\', \'")[1]
+#print(init_db)
+count=0
+for y in init_db.split("}{"):
+	count+=1
+	database+=str(y).split("\'image\':")[0]
+	name.append(str(y).split("\'image\':")[0].split("\'name\':")[1].replace("\'","").replace(' ',"").replace(',',"")+".jpg")
+	database+=str(y).split("\'image\': b\'")[1].split("\', \'")[1]
+	if count<len(init_db.split("}{")):
+		database+="}{"
+	image=base64.decodebytes(init_db.split("\'image\': b\'")[1].split("\', \'")[0].replace("\\n","").encode("UTF-8"))
+	image_result = open(name[count-1], 'wb')
+	image_result.write(image)
 print(database)
-image=base64.decodebytes(init_db.split("\'image\': b\'")[1].split("\', \'")[0].replace("\\n","").encode("UTF-8"))
-image_result = open('decode.jpg', 'wb')
-image_result.write(image)
